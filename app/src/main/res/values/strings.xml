@@ -52,5 +52,6 @@
 
     <!-- Toast to play after Clear button has been pressed -->
     <string name="cleared_message">All your data is gone forever.</string>
+    <string name="how_was_your_sleep">How was your sleep?</string>
 
 </resources>

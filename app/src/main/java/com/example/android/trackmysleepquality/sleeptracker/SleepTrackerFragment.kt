@@ -61,6 +61,17 @@ class SleepTrackerFragment : Fragment() {
 
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
+
+        //JS Why is it placed here
+        val adapter = SleepNightAdapter()
+        binding.sleepList.adapter = adapter
+
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer{
+            it?.let {
+                adapter.data = it
+            }
+        })
+
         // binding.setLifecycleOwner(this)
         binding.lifecycleOwner = this
 

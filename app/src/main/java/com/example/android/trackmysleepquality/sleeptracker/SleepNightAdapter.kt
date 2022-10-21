@@ -18,8 +18,8 @@ class SleepNightAdapter: RecyclerView.Adapter<TextItemViewHolder>(){
 
     override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: TextItemViewHolder, position: Int){
-     val item = data[position]
+    override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
+        val item = data[position]
         if (item.sleepQuality <= 1) {
             holder.textView.setTextColor(Color.RED)
         } else {

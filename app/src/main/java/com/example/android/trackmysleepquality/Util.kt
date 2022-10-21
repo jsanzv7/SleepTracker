@@ -113,4 +113,6 @@ fun formatNights(nights: List<SleepNight>, resources: Resources): Spanned {
  * A ViewHolder holds a view for the [RecyclerView] as well as providing additional information
  * to the RecyclerView such as where on the screen it was last drawn during scrolling.
  */
+/* It's a Kotlin class that extends RecyclerView.ViewHolder and has a single property called textView
+that is a TextView */
 class TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)

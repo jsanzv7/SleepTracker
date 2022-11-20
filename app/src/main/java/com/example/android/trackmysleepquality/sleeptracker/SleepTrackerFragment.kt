@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -44,7 +45,7 @@ class SleepTrackerFragment : Fragment() {
      * This function uses DataBindingUtil to inflate R.layout.fragment_sleep_quality.
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+                              savedInstanceState: Bundle?): View? {
 
         // Get a reference to the binding object and inflate the fragment views.
         val binding: FragmentSleepTrackerBinding = DataBindingUtil.inflate(
@@ -62,19 +63,6 @@ class SleepTrackerFragment : Fragment() {
 
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
-        val manager = GridLayoutManager(activity, 3)
-        binding.sleepList.layoutManager = manager
-
-        val adapter = SleepNightAdapter()
-        binding.sleepList.adapter = adapter
-
-        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer{
-            it?.let {
-                adapter.submitList(it)
-            }
-        })
-
-        // binding.setLifecycleOwner(this)
         binding.lifecycleOwner = this
 
         // Add an Observer on the state variable for showing a Snackbar message
@@ -111,6 +99,21 @@ class SleepTrackerFragment : Fragment() {
             }
         })
 
+        val manager = GridLayoutManager(activity, 3)
+        binding.sleepList.layoutManager = manager
+
+        // TODO (07) Pass a SleepNightListener callback to the SleepNightAdapter.
+        val adapter = SleepNightAdapter(SleepNightListener { nightId ->
+            /* Showing a toast message with the nightId. */
+            Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
+        })
+        binding.sleepList.adapter = adapter
+
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
 
         return binding.root
     }

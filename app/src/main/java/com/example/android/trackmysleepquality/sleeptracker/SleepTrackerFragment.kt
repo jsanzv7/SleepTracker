@@ -99,13 +99,24 @@ class SleepTrackerFragment : Fragment() {
             }
         })
 
+        // TODO (05) Add an observer for navigateToSleepDataQuality.
+        // TODO (Question) Android studion did not like using 'this' in the next line and suggested
+        //  to replace it with viewLifecycleOwner. Is this correct?
+        // sleepTrackerViewModel.navigateToSleepDataQuality.observe(this, Observer {night ->
+        sleepTrackerViewModel.navigateToSleepDataQuality.observe(this, Observer {night ->
+            night?.let {
+                this.findNavController().navigate(SleepTrackerFragmentDirections
+                    .actionSleepTrackerFragmentToSleepDetailFragment(night))
+                sleepTrackerViewModel.onSleepDataQualityNavigated()
+            }
+        })
+
         val manager = GridLayoutManager(activity, 3)
         binding.sleepList.layoutManager = manager
 
-        // TODO (07) Pass a SleepNightListener callback to the SleepNightAdapter.
-        val adapter = SleepNightAdapter(SleepNightListener { nightId ->
-            /* Showing a toast message with the nightId. */
-            Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
+        // TODO (02) Replace the Toast message with code to pass nightId to the view model. [DONE]
+        val adapter = SleepNightAdapter(SleepNightListener {
+                nightId ->  sleepTrackerViewModel.onSleepNightClicked(nightId)
         })
         binding.sleepList.adapter = adapter
 

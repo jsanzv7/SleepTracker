@@ -34,6 +34,24 @@ class SleepTrackerViewModel(
         val database: SleepDatabaseDao,
         application: Application) : AndroidViewModel(application) {
 
+        /**
+         * viewModelJob allows us to cancel all coroutines started by this ViewModel.
+
+        private var viewModelJob = Job()
+
+        /**
+         * A [CoroutineScope] keeps track of all coroutines started by this ViewModel.
+         *
+         * Because we pass it [viewModelJob], any coroutine started in this uiScope can be cancelled
+         * by calling `viewModelJob.cancel()`
+         *
+         * By default, all coroutines started in uiScope will launch in [Dispatchers.Main] which is
+         * the main thread on Android. This is a sensible default because most coroutines started by
+         * a [ViewModel] update the UI after performing some processing.
+        */
+        private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+         */
+
 
         private var tonight = MutableLiveData<SleepNight?>()
 
@@ -97,6 +115,7 @@ class SleepTrackerViewModel(
         fun doneShowingSnackbar() {
                 _showSnackbarEvent.value = false
         }
+
         /**
          * If this is non-null, immediately navigate to [SleepQualityFragment] and call [doneNavigating]
          */
@@ -111,6 +130,34 @@ class SleepTrackerViewModel(
          */
         fun doneNavigating() {
                 _navigateToSleepQuality.value = null
+        }
+
+        // TODO (03) In SleepTrackerViewModel, add a handler for the click event. [DONE]
+        /**
+         *  This is a LiveData that will be used to navigate to the SleepDetailFragment.
+         */
+        private val _navigateToSleepDataQuality = MutableLiveData<Long>()
+        val navigateToSleepDataQuality
+                get() = _navigateToSleepDataQuality
+
+        // TODO (04) Define method to initiate and complete naviattion. [DONE]
+        //  Initiate navigation by setting _navigateToSleepDataQuality.value to id:
+        //  And then set it to null once navigation is completed:
+        /**
+         * When the user clicks on a night in the list, the function sets the value of the
+         * _navigateToSleepDataQuality variable to the ID of the night that was clicked
+         *
+         * @param id Long
+         */
+        fun onSleepNightClicked(id: Long){
+                _navigateToSleepDataQuality.value = id
+        }
+
+        /**
+         * It sets the value of the _navigateToSleepDataQuality variable to null.
+         */
+        fun onSleepDataQualityNavigated() {
+                _navigateToSleepDataQuality.value = null
         }
 
         init {

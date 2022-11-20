@@ -25,7 +25,6 @@ import com.example.android.trackmysleepquality.database.SleepNight
 import com.example.android.trackmysleepquality.databinding.ListItemSleepNightBinding
 import com.example.android.trackmysleepquality.sleeptracker.SleepNightAdapter.ViewHolder.Companion.from
 
-// TODO (04) Add a SleepNightListener reference to the SleepNightAdapter class declaration.
 /* The ViewHolder class is a subclass of RecyclerView.ViewHolder. It holds a reference to the binding
 object for each item in the RecyclerView */
 class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<SleepNight,
@@ -38,8 +37,6 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Sle
     class ViewHolder private constructor(val binding: ListItemSleepNightBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        // TODO (06) Add a clickListener parameter to the bind() function,
-        // and add a binding for the clickListener.
         fun bind(clickListener: SleepNightListener, item: SleepNight) {
             binding.sleep = item
             /* The clickListener is passed as a parameter to the bind() function. The getItem()
@@ -63,7 +60,6 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Sle
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 
-        // TODO (05) Add clickListener parameter to holder.bind().
         /* The bind() function is called on the ViewHolder object. The clickListener is passed as a
         parameter to the bind() function. The getItem() function is called on the adapter to get the
         SleepNight object at the position that was clicked. The !! operator is used to ensure that
@@ -89,7 +85,6 @@ class SleepNightDiffCallback : DiffUtil.ItemCallback<SleepNight>() {
     }
 }
 
-// TODO (01) Create a new class called SleepNightListener.
 /* "SleepNightListener is a class that takes a lambda as a constructor parameter and calls that lambda
 when onClick is called."
 
